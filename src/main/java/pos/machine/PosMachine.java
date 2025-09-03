@@ -1,6 +1,10 @@
 package pos.machine;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import pos.machine.ReceiptItem;
 
 public class PosMachine {
     // ========== Step 1. 数据库加载 ==========
@@ -66,5 +70,4 @@ public class PosMachine {
 
         return formatReceipt(receiptItems, total);
     }
-
 }
