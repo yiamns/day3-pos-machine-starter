@@ -7,24 +7,24 @@ import java.util.stream.Collectors;
 import pos.machine.ReceiptItem;
 
 public class PosMachine {
-    // ========== Step 1. 数据库加载 ==========
+    // 数据库加载
     private Map<String, Item> loadItemDatabase() {
         return ItemsLoader.loadAllItems().stream().collect(Collectors.toMap(Item::getBarcode, item -> item));
     }
 
-    // ========== Step 2. 校验 ==========
+    // 校验
     private boolean validateBarcodes(List<String> barcodes) {
         Set<String> validBarcodes = loadItemDatabase().keySet();
         return barcodes.stream().allMatch(validBarcodes::contains);
     }
 
-    // ========== Step 3. 统计数量 ==========
+    // 统计数量
     private Map<String, Integer> countBarcodes(List<String> barcodes) {
         return barcodes.stream()
                 .collect(Collectors.toMap(code -> code, code -> 1, Integer::sum));
     }
 
-    // ========== Step 4. 匹配商品 ==========
+    // 匹配商品
     private List<ReceiptItem> matchItems(Map<String, Integer> barcodeCount) {
         Map<String, Item> itemDatabase = loadItemDatabase();
         return barcodeCount.entrySet()
@@ -36,14 +36,14 @@ public class PosMachine {
                 .collect(Collectors.toList());
     }
 
-    // ========== Step 5. 计算总价 ==========
+    // 计算总价
     private int calculateTotal(List<ReceiptItem> receiptItems) {
         return receiptItems.stream()
                 .mapToInt(ReceiptItem::getSubtotal)
                 .sum();
     }
 
-    // ========== Step 6. 格式化输出 ==========
+    // 格式化输出
     private String formatReceipt(List<ReceiptItem> receiptItems, int total) {
         StringBuilder sb = new StringBuilder();
         sb.append("***<store earning no money>Receipt***\n");
@@ -58,6 +58,7 @@ public class PosMachine {
         sb.append("**********************");
         return sb.toString();
     }
+
     public String printReceipt(List<String> barcodes) {
         if (!validateBarcodes(barcodes)) {
             System.out.println("输入的条码中包含数据库中不存在的商品！");
