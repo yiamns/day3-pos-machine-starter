@@ -61,8 +61,7 @@ public class PosMachine {
 
     public String printReceipt(List<String> barcodes) {
         if (!validateBarcodes(barcodes)) {
-            System.out.println("输入的条码中包含数据库中不存在的商品！");
-            return null;
+            throw new IllegalArgumentException("输入的条码中包含数据库中不存在的商品！");
         }
 
         Map<String, Integer> barcodeCount = countBarcodes(barcodes);
