@@ -19,8 +19,11 @@ public class PosMachine {
 
     // 统计数量
     private Map<String, Integer> countBarcodes(List<String> barcodes) {
-        return barcodes.stream()
-                .collect(Collectors.toMap(code -> code, code -> 1, Integer::sum));
+        Map<String, Integer> countMap = new LinkedHashMap<>();
+        for (String code : barcodes) {
+            countMap.put(code, countMap.getOrDefault(code, 0) + 1);
+        }
+        return countMap;
     }
 
     // 匹配商品
